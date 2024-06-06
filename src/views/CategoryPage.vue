@@ -4,9 +4,9 @@
       <b-container class="mt-4">
         <b-row>
           <b-col md="4" v-for="category in categories" :key="category.id" class="mb-4">
-            <b-card @click="viewCategory(category.name)" class="text-center" :title="category.name" :img-src="category.photo" img-alt="Category Image" img-top>
+            <b-card @click="viewCategory(category.name)" class="text-center" :title="category.name">
               <b-card-text>
-                {{ category.description }}
+                {{ category.name }}
               </b-card-text>
             </b-card>
           </b-col>
@@ -31,8 +31,12 @@
     },
     methods: {
       async fetchCategories() {
-        const categoryCollection = await db.collection('categories').get();
-        this.categories = categoryCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        try {
+          const categoryCollection = await db.collection('categories').get();
+          this.categories = categoryCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } catch (error) {
+          console.error('Error fetching categories:', error);
+        }
       },
       viewCategory(categoryName) {
         this.$router.push({ name: 'RecipePage', query: { category: categoryName } });
