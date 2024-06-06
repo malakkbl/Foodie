@@ -1,10 +1,10 @@
 <template>
     <div>
       <NavBar />
-      <b-container class="mt-4 d-flex flex-column align-items-center">
+      <b-container class="mt-5 d-flex flex-column align-items-center">
         <b-row class="justify-content-center text-center mt-5">
           <b-col>
-            <h1 class="welcome-message">Welcome, {{ user.fullName }}!</h1>
+            <h1 class="welcome-message mt-5">Welcome, {{ user.fullName }}!</h1>
             <p class="sub-message">Select a category to explore delicious recipes.</p>
           </b-col>
         </b-row>
