@@ -3,12 +3,12 @@
       <NavBar />
       <b-container class="mt-4">
         <b-row>
-          <b-col md="4" v-for="recipe in recipes" :key="recipe.id" class="mb-4">
-            <b-card :title="recipe.nom" :img-src="recipe.image" img-alt="Recipe Image" img-top>
-              <b-card-text>
+          <b-col md="4" v-for="recipe in recipes" :key="recipe.id" class="d-flex align-items-stretch mb-4">
+            <b-card :title="recipe.nom" :img-src="recipe.image" img-alt="Recipe Image" img-top class="flex-fill">
+              <b-card-text class="flex-grow-1">
                 {{ recipe.description }}
               </b-card-text>
-              <b-button @click="viewRecipe(recipe.id)" variant="primary">View Recipe</b-button>
+              <b-button @click="viewRecipe(recipe.id)" variant="danger">View Recipe</b-button>
             </b-card>
           </b-col>
         </b-row>
@@ -55,6 +55,14 @@
   }
   .mb-4 {
     margin-bottom: 2rem;
+  }
+  .b-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .b-card-text {
+    flex-grow: 1;
   }
   </style>
   
