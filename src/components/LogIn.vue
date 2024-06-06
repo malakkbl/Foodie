@@ -45,7 +45,7 @@ export default {
     async login() {
       try {
         await auth.signInWithEmailAndPassword(this.email, this.password);
-        this.$router.push("/recipes");
+        this.$router.push("/categories");
       } catch (error) {
         alert(error.message);
       }

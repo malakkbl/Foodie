@@ -5,16 +5,18 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item v-if="!user" to="/">Home</b-nav-item>
-        <b-nav-item v-if="user" to="/recipes">Recipes</b-nav-item>
+        <b-nav-item v-if="user" to="/categories">Categories</b-nav-item>
+        <b-nav-item v-if="user" to="/allrecipes">Recipes</b-nav-item>
+        <b-nav-item v-if="user" to="/add-recipe">Add Recipe</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="user" to="/profile">Profile</b-nav-item>
         <b-nav-item v-if="user" @click="logout">Logout</b-nav-item>
         <b-nav-item v-if="!user">
-          <b-button variant="outline-light" @click="goToLogin">Login</b-button>
+          <b-button variant="outline-light" to="/login">Login</b-button>
         </b-nav-item>
         <b-nav-item v-if="!user">
-          <b-button variant="outline-light" @click="goToSignUp">Sign Up</b-button>
+          <b-button variant="outline-light" to="/signup">Sign Up</b-button>
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
@@ -28,7 +30,7 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      user: null // Assurez-vous de mettre à jour cette logique pour récupérer l'état de l'utilisateur
+      user: null,
     };
   },
   methods: {
@@ -36,22 +38,14 @@ export default {
       auth.signOut().then(() => {
         this.user = null;
         this.$router.push('/');
-      }).catch(error => {
-        console.error("Error signing out: ", error);
       });
     },
-    goToLogin() {
-      this.$router.push('/login');
-    },
-    goToSignUp() {
-      this.$router.push('/signup');
-    }
   },
   mounted() {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(user => {
       this.user = user;
     });
-  }
+  },
 };
 </script>
 

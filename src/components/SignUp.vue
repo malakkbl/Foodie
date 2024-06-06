@@ -85,7 +85,7 @@ export default {
         }, { merge: true });
 
         // Redirection après inscription réussie
-        this.$router.push('/recipes');
+        this.$router.push('/categories');
       } catch (error) {
         alert(error.message);
       }
