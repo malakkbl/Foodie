@@ -45,15 +45,15 @@ export default {
     async login() {
       try {
         await auth.signInWithEmailAndPassword(this.email, this.password);
-        this.$router.push("/recipes"); // Redirection vers la page des recettes
+        this.$router.push("/recipes");
       } catch (error) {
         alert(error.message);
       }
     },
     goToSignUp() {
       this.$router.push("/signup");
-    },
-  },
+    }
+  }
 };
 </script>
 

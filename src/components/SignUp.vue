@@ -5,7 +5,10 @@
         <b-card bg-variant="light" border-variant="danger" class="signup-card">
           <b-form @submit.prevent="signUp">
             <b-form-group label="Username">
-              <b-form-input v-model="name" type="text" required></b-form-input>
+              <b-form-input v-model="username" type="text" required></b-form-input>
+            </b-form-group>
+            <b-form-group label="Full Name">
+              <b-form-input v-model="fullName" type="text" required></b-form-input>
             </b-form-group>
             <b-form-group label="Email">
               <b-form-input
@@ -47,7 +50,8 @@ import { db, auth } from '@/firebase';
 export default {
   data() {
     return {
-      name: '',
+      username: '',
+      fullName: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -61,17 +65,27 @@ export default {
       }
 
       try {
-        const userSnapshot = await db.collection('users').where('name', '==', this.name).get();
+        // Vérifier si le nom d'utilisateur est déjà pris
+        const userSnapshot = await db.collection('users').where('username', '==', this.username).get();
         if (!userSnapshot.empty) {
           alert('Username is already taken');
           return;
         }
-        await auth.createUserWithEmailAndPassword(this.email, this.password);
-        await db.collection('users').doc(auth.currentUser.uid).set({
-          userid: auth.currentUser.uid,
-          name: this.name
+
+        // Créer l'utilisateur
+        const userCredential = await auth.createUserWithEmailAndPassword(this.email, this.password);
+        const userId = userCredential.user.uid;
+
+        // Enregistrer les informations supplémentaires de l'utilisateur
+        await db.collection('users').doc(userId).set({
+          email: this.email,
+          username: this.username,
+          fullName: this.fullName,
+          photoURL: '' // Ajoutez une logique pour gérer les photos de profil si nécessaire
         }, { merge: true });
-        this.$router.push('/recipes'); // Redirection vers la page des recettes
+
+        // Redirection après inscription réussie
+        this.$router.push('/recipes');
       } catch (error) {
         alert(error.message);
       }
