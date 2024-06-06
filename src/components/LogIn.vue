@@ -17,14 +17,13 @@
                 type="password"
                 required
               ></b-form-input>
-
             </b-form-group>
-            <b-button type="submit" variant="danger" class="btn-block"
-              >Login</b-button
-            >
-            <b-button @click="goToSignUp" variant=" danger" class="btn-block"
-              >Sign Up</b-button
-            >
+            <b-button type="submit" variant="danger" class="btn-block">
+              Login
+            </b-button>
+            <b-button @click="goToSignUp" variant="" class="btn-block">
+              Sign Up
+            </b-button>
           </b-form>
         </b-card>
       </b-col>
@@ -46,16 +45,13 @@ export default {
     async login() {
       try {
         await auth.signInWithEmailAndPassword(this.email, this.password);
-        this.$router.push("/");
+        this.$router.push("/recipes"); // Redirection vers la page des recettes
       } catch (error) {
         alert(error.message);
       }
     },
     goToSignUp() {
       this.$router.push("/signup");
-    },
-    goToResetPassword() {
-      this.$router.push("/reset-password");
     },
   },
 };
