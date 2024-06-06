@@ -66,12 +66,33 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group label="Ingredients" label-for="ingredients">
-                  <b-form-textarea
-                    id="ingredients"
-                    v-model="ingredientsInput"
-                    required
-                    placeholder="Enter ingredients (one per line)"
-                  ></b-form-textarea>
+                  <div v-for="(ingredient, index) in ingredients" :key="index" class="mb-2">
+                    <b-form-row>
+                      <b-col>
+                        <b-form-input
+                          v-model="ingredient.nom"
+                          placeholder="Ingredient Name"
+                        ></b-form-input>
+                      </b-col>
+                      <b-col>
+                        <b-form-input
+                          v-model="ingredient.quantité"
+                          placeholder="Quantity"
+                          type="number"
+                        ></b-form-input>
+                      </b-col>
+                      <b-col>
+                        <b-form-input
+                          v-model="ingredient.unité"
+                          placeholder="Unit"
+                        ></b-form-input>
+                      </b-col>
+                      <b-col cols="auto">
+                        <b-button @click="removeIngredient(index)" variant="danger">Remove</b-button>
+                      </b-col>
+                    </b-form-row>
+                  </div>
+                  <b-button @click="addIngredient" class="mt-3" variant="secondary">Add Ingredient</b-button>
                 </b-form-group>
                 <b-form-group label="Instructions" label-for="instructions">
                   <b-form-textarea
@@ -91,7 +112,7 @@
   </template>
   
   <script>
-  import { db } from "@/firebase"; // Adjust the import based on your Firebase setup
+  import { db } from "@/firebase"; 
   import NavBar from "../components/NavBar.vue";
   
   export default {
@@ -113,37 +134,39 @@
           tags: [],
           image: "",
         },
-        ingredientsInput: "",
+        ingredients: [
+          { nom: "", quantité: "", unité: "" },
+        ],
         instructionsInput: "",
-        regimeOptions: ["Omnivore", "Végétarien", "Végétalien"],
+        regimeOptions: ["Omnivore", "Végétarien"],
       };
     },
     methods: {
+      addIngredient() {
+        this.ingredients.push({ nom: "", quantité: "", unité: "" });
+      },
+      removeIngredient(index) {
+        this.ingredients.splice(index, 1);
+      },
       async addRecipe() {
         try {
           if (!this.recipe.nom || !this.recipe.description || !this.recipe.regime || !this.recipe.image) {
-            alert("Please fill out all required fields.");
+            console.warn("Please fill out all required fields.");
             return;
           }
   
-          this.recipe.ingredients = this.ingredientsInput
-            .split("\n")
-            .filter((item) => item.trim() !== "")
-            .map((item) => {
-              const [nom, quantité, unité] = item.split(",").map((i) => i.trim());
-              return { nom, quantité: parseFloat(quantité), unité };
-            });
+          this.recipe.ingredients = this.ingredients;
   
           this.recipe.instructions = this.instructionsInput
             .split("\n")
             .filter((item) => item.trim() !== "");
   
+          console.log(this.recipe); 
+  
           await db.collection("recipes").add(this.recipe);
-          alert("Recipe added successfully!");
-          this.$router.push("/recipes");
+          this.$router.push("/allrecipes");
         } catch (error) {
           console.error("Error adding recipe:", error);
-          alert("Failed to add recipe. Please try again.");
         }
       },
     },
