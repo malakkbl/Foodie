@@ -1,6 +1,8 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="danger" class="fixed-top-with-margin fixed-top">
-    <b-navbar-brand href="/">Foodie</b-navbar-brand>
+    <b-navbar-brand href="/">
+      <img src="@/assets/Foodie_transparent.png" alt="Foodie Logo" class="logo">
+    </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
@@ -64,5 +66,9 @@ body {
 
 .b-navbar {
   background-color: #ff69b4 !important; /* Bright pink color */
+}
+
+img {
+  height: 40px;
 }
 </style>
