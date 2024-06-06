@@ -2,7 +2,7 @@
     <b-container class="signup-container">
       <b-row class="justify-content-center">
         <b-col md="6" lg="4">
-          <b-card bg-variant="light" border-variant="success" class="signup-card">
+          <b-card bg-variant="light" border-variant="danger" class="signup-card">
             <b-form @submit.prevent="signUp">
               <b-form-group label="Username">
                 <b-form-input v-model="name" type="text" required></b-form-input>
@@ -28,10 +28,10 @@
                   required
                 ></b-form-input>
               </b-form-group>
-              <b-button type="submit" variant="success" class="btn-block"
+              <b-button type="submit" variant="danger" class="btn-block"
                 >Sign Up</b-button
               >
-              <b-button @click="goToLogin" variant="link" class="btn-block"
+              <b-button @click="goToLogin" variant="" class="btn-block"
                 >Login</b-button
               >
             </b-form>

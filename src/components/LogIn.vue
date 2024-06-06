@@ -2,7 +2,7 @@
   <b-container class="login-container">
     <b-row class="justify-content-center">
       <b-col md="6" lg="4">
-        <b-card bg-variant="light" border-variant="success" class="login-card">
+        <b-card bg-variant="light" border-variant="danger" class="login-card">
           <b-form @submit.prevent="login">
             <b-form-group label="Email">
               <b-form-input
@@ -17,11 +17,12 @@
                 type="password"
                 required
               ></b-form-input>
+
             </b-form-group>
-            <b-button type="submit" variant="success" class="btn-block"
+            <b-button type="submit" variant="danger" class="btn-block"
               >Login</b-button
             >
-            <b-button @click="goToSignUp" variant=" sucess" class="btn-block"
+            <b-button @click="goToSignUp" variant=" danger" class="btn-block"
               >Sign Up</b-button
             >
           </b-form>
