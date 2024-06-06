@@ -10,11 +10,11 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="user" to="/profile">Profile</b-nav-item>
         <b-nav-item v-if="user" @click="logout">Logout</b-nav-item>
-        <b-nav-item v-if="!user" >
-          <b-button variant="outline-light" to="/login">Login</b-button>
-        </b-nav-item >
         <b-nav-item v-if="!user">
-          <b-button variant="outline-light" to="/signup">Sign Up</b-button>
+          <b-button variant="outline-light" @click="goToLogin">Login</b-button>
+        </b-nav-item>
+        <b-nav-item v-if="!user">
+          <b-button variant="outline-light" @click="goToSignUp">Sign Up</b-button>
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { auth } from '@/firebase';
+
 export default {
   name: 'NavBar',
   data() {
@@ -31,15 +33,24 @@ export default {
   },
   methods: {
     logout() {
-      // Ajoutez la logique de déconnexion ici
-      this.user = null;
-      // Redirigez ou effectuez d'autres actions après la déconnexion
+      auth.signOut().then(() => {
+        this.user = null;
+        this.$router.push('/');
+      }).catch(error => {
+        console.error("Error signing out: ", error);
+      });
+    },
+    goToLogin() {
+      this.$router.push('/login');
+    },
+    goToSignUp() {
+      this.$router.push('/signup');
     }
   },
   mounted() {
-    // Ajoutez la logique pour récupérer l'état de l'utilisateur ici
-    // Par exemple, vérifier si l'utilisateur est connecté
-    this.user = false; // ou true, selon l'état réel de l'utilisateur
+    auth.onAuthStateChanged((user) => {
+      this.user = user;
+    });
   }
 };
 </script>
